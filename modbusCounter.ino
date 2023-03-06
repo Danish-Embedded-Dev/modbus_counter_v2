@@ -147,10 +147,10 @@ void loop() {
   //put some data into the registers
     update_counter_reg();
 
-    //setting led if there is any command comes
-//    if(Serial2.available()>1){  //we are using Serial2 for modbus communication  
-//      ModuleStatus.set();     //start led active for ACTIVE_TIME in ms 
-//     }
+    //setting led if there is any message in serial  
+    if(slave.checkSerial()>1){    
+      ModuleStatus.set();     //start led active for ACTIVE_TIME in ms 
+     }
    
     if(millis()-test>1000){
       test = millis();       
