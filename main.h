@@ -68,8 +68,8 @@
   LiveStatus  ModuleStatus(STATUS_LED,ACTIVE_TIME);
 
   //button instance
-  ButtonDebounce  button1(INPUT_SW_1,500); //500 ms debounce
-  ButtonDebounce  button2(INPUT_SW_2,500);  //500 ms debounce
+  ButtonDebounce  button1(INPUT_SW_1,default_var.debounce_tm);  //default milliSeconds debounce
+  ButtonDebounce  button2(INPUT_SW_2,default_var.debounce_tm);  //default milliSeconds debounce
 #endif//MODBUS_COUNTER
 
 

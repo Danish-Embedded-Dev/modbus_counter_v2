@@ -1,9 +1,9 @@
 /************************************************************/
-/* buttonDebounce.h                                            */
+/* buttonDebounce.h                                         */
 /*                                                          */
 /* Class library for debounce of  the button                */
 /*                                                          */
-/* ENGD2103, November 2022                                  */
+/* MODBUS, FEBRUARY 20223                                   */
 /************************************************************/
 
 #ifndef _ButtonDebounce_h_
@@ -27,8 +27,9 @@ typedef enum
 class ButtonDebounce {
   public:
              ButtonDebounce(int _pin,unsigned long _debouncePeriod);
-    uint32_t getcount();
+    void     setdebounce(unsigned long debounce_time);
     void     setcount(uint32_t count);
+    uint32_t getcount();
     void     process();   
  
  private: 

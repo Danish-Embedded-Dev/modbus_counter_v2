@@ -1,9 +1,9 @@
 /************************************************************/
-/* RedBlinker.cpp                                           */
+/* buttonDebounce.cpp                                       */
 /*                                                          */
 /* Class library for debounce check of button               */
 /*                                                          */
-/* ENGD2103, November 2022                                  */
+/* MODBUS, FEBRUARY 2023                                    */
 /************************************************************/
 
 #include "ButtonDebounce.h" 
@@ -22,15 +22,17 @@ ButtonDebounce::ButtonDebounce(int _pin,unsigned long _debouncePeriod)
   total_count = 0;  //start count from zero
 }
 
- 
-
 //-----------------------------------------
 //accessor function to get button current total count
+//para : unsigned long debounce value
 //return: total count of button pressed
 //---------------------------------------
-uint32_t ButtonDebounce::getcount(){
-  return total_count;
+void  ButtonDebounce::setdebounce(unsigned long debounce_time){
+   debouncetm = debounce_time;
 }
+
+
+ 
 
 //-----------------------------------------
 //accessor function to set button current total count
@@ -38,6 +40,15 @@ uint32_t ButtonDebounce::getcount(){
 //---------------------------------------
 void ButtonDebounce::setcount(uint32_t count){
   uint32_t total_count = count;  
+}
+
+//-----------------------------------------
+//accessor function to set button debounce time
+//return: null
+//---------------------------------------
+
+uint32_t ButtonDebounce::getcount(){
+  return total_count;
 }
  
 //--------------------------------------------------------------

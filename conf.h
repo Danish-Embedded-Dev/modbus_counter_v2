@@ -33,7 +33,7 @@ struct  Default_variable {
   uint16_t mod_config = SERIAL_8N1;//default is SERIAL_8N1 from core
   uint16_t mod_baud    = 9600;     //default baudrate is 9600
   uint16_t net_timeout = 60;       //60 second network timeout for event update 
-  uint16_t debounce_tm = 100;       //routine time for timer is debouncing time in milliseconds 
+  uint16_t debounce_tm = 200;       //routine time for timer is debouncing time in milliseconds 
   uint32_t count_1 = 0;      //use for shift A counter_1
   uint32_t count_2 = 0;      //use for shift A counter_2 
 } default_var, running_var;
@@ -84,7 +84,7 @@ struct  Default_variable {
    
   //for running state indication
   #define STATUS_LED        PC13
-  #define ACTIVE_TIME       200  //1000ms led on when there is any serial data come
+  #define ACTIVE_TIME       500  //500ms led on when there is any serial data come
 
  
 #endif//USE_MODBUS

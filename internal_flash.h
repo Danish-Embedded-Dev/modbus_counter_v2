@@ -1,3 +1,10 @@
+/************************************************************/
+/* internal_flash.h                                         */
+/*                                                          */
+/* Class library for handling internal flash                */
+/*                                                          */
+/* MODBUS, February 2023                                    */
+/************************************************************/
 #ifndef INTERNAL_FLASH_H
 #define INTERNAL_FLASH_H
 
