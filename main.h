@@ -65,7 +65,7 @@
   modbusSlave slave;
 
   //module online status instance
-  LiveStatus  ModuleStatus(STATUS_LED,ACTIVE_TIME);
+  LiveStatus  ModuleStatus(STATUS_LED,default_var.net_timeout);
 
   //button instance
   ButtonDebounce  button1(INPUT_SW_1,default_var.debounce_tm);  //default milliSeconds debounce

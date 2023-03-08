@@ -11,13 +11,13 @@ Set the ModSerial Baud rate.
 Reconfigure the UART for 8 data bits, no parity, and 1 stop bit.
 and flush the ModSerial port.
 */
-void modbusSlave::setBaud(word baud)
+void modbusSlave::setBaud(word baud,byte serialconfig)
 {
   _baud = baud;
   //calculate the time perdiod for 3 characters for the given bps in ms.
   _frameDelay = 24000/_baud;
 
-  ModSerial.begin(baud);
+  ModSerial.begin(baud,serialconfig);
 
   // defaults to 8-bit, no parity, 1 stop bit
   //clear parity, stop bits, word length
@@ -71,7 +71,7 @@ void modbusSlave::calcCrc(void)
 /*
   Checks the UART for query data
 */
-void modbusSlave::checkSerial(void)
+int modbusSlave::checkSerial(void)
 {
   //while there is more data in the UART than when last checked
   while(ModSerial.available()> _len)
@@ -83,6 +83,7 @@ void modbusSlave::checkSerial(void)
     delay(_frameDelay);
     //Check the UART again
   }
+  return _len;
 }
 
 /*

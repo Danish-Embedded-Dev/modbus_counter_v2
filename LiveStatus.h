@@ -17,6 +17,7 @@
 class LiveStatus {
   public:
                      LiveStatus(int _pin,int active_tm);  //constructor
+    void             set_timeout(int active_tm);
     void             set();
     void             process();
 

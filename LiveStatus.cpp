@@ -24,6 +24,17 @@ LiveStatus::LiveStatus(int _pin,int active_tm)
 //--------------------------------------------------------------
 // process()
 //
+// Member function that set the active time    
+// Returns: nothing
+//--------------------------------------------------------------
+void LiveStatus::set_timeout(int active_tm)
+{
+  active_time = active_tm;
+}
+
+//--------------------------------------------------------------
+// process()
+//
 // Member function that set the status time   
 // Returns: nothing
 //--------------------------------------------------------------

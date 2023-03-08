@@ -29,13 +29,13 @@
 #ifdef INTERNAL_EEPROM_ENABLE
 
 struct  Default_variable {
-  uint16_t device_id = 1;         //modbus device ID 0-255
-  uint16_t mod_config = SERIAL_8N1;//default is SERIAL_8N1 from core
-  uint16_t mod_baud    = 9600;     //default baudrate is 9600
-  uint16_t net_timeout = 60;       //60 second network timeout for event update 
+  uint16_t device_id   = 1;         //modbus device ID 0-255
+  uint16_t mod_config  = SERIAL_8N1;//default is SERIAL_8N1 from core
+  uint16_t mod_baud    = 9600;      //default baudrate is 9600
+  uint16_t net_timeout = 500;       //500 ms network timeout for event update 
   uint16_t debounce_tm = 200;       //routine time for timer is debouncing time in milliseconds 
-  uint32_t count_1 = 0;      //use for shift A counter_1
-  uint32_t count_2 = 0;      //use for shift A counter_2 
+  uint32_t count_1     = 0;         //use for shift A counter_1
+  uint32_t count_2     = 0;         //use for shift A counter_2 
 } default_var, running_var;
 
 #endif//INTERNAL_EEPROM_ENABLE
@@ -83,8 +83,7 @@ struct  Default_variable {
   //----------Input Button Variable------ 
    
   //for running state indication
-  #define STATUS_LED        PC13
-  #define ACTIVE_TIME       500  //500ms led on when there is any serial data come
+  #define STATUS_LED        PC13 
 
  
 #endif//USE_MODBUS

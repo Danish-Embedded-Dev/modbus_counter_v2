@@ -46,13 +46,13 @@ void setup() {
 #ifdef MODBUS_COUNTER
         //Pins Configuration
         gpioInit();
-
-        //add debounce time 
-        //------------
         
         //Assign the modbus device ID.  
-        regBank.setId(1);
-        init_reg();  //initialize all required registers
+        regBank.setId(running_var.device_id);
+
+        //initialize all required registers
+        init_reg();  
+        
         /*
         Assign the modbus device object to the protocol handler
         This is where the protocol handler will look to read and write
@@ -61,8 +61,16 @@ void setup() {
         */
         slave._device = &regBank;  
       
-      // Initialize the serial port for coms at 9600 baud  
-        slave.setBaud(9600);  
+        // Initialize the serial port for coms at 9600 baud  
+        slave.setBaud(running_var.mod_baud,running_var.mod_config);  
+
+        //add debounce time which store in flash
+        button1.setdebounce(running_var.debounce_tm);
+        button2.setdebounce(running_var.debounce_tm);
+
+        //add live status active time period 
+        ModuleStatus.set_timeout(running_var.net_timeout);
+        
 #endif //MODBUS_COUNTER
 
 }

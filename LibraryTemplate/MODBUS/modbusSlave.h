@@ -54,10 +54,10 @@ class modbusSlave
 {
 	public:
 		modbusSlave(void);
-		void setBaud(word);
+		void setBaud(word,byte);
 		word getBaud(void);
 		void calcCrc(void);
-		void checkSerial(void);
+		int  checkSerial(void);
 		void serialRx(void);
 		void getDigitalStatus(byte, word, word);
 		void getAnalogStatus(byte, word, word);
