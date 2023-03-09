@@ -36,6 +36,8 @@
 //  SERIAL_8E2  0B00101010 || 42
 //  SERIAL_8O1  0B00001011 || 11
 //  SERIAL_8O2  0B00101011 || 43
+#define MSB_CAST(_UINT32_T)       (uint16_t((_UINT32_T)&0xFFFF))  //return higher uint16_t on return
+#define LSB_CAST(_UINT32_T)       (uint16_t((_UINT32_T>>16)&0xFFFF))  //return lower uint16_t  on return
 
 struct  Default_variable {
   uint16_t device_id   = 1;         //modbus device ID 0-255
@@ -65,10 +67,12 @@ struct  Default_variable {
 
 //------------------MODULE_MODBUS_COUNTER-----------
 #ifdef USE_MODBUS  
+  //reset states 
+  #define DO_RESET  1
    
   //----------Manual relay  block--------
-//  #define OUT_RLY_1 PB12 //RELAY1 
-//  #define OUT_RLY_1 PB12 //RELAY1  
+//  #define OUT_RLY_1 PB0 //RELAY1 
+//  #define OUT_RLY_2 PB1 //RELAY1  
 
   //-----------INPUT Button---------
   //input switch pins declaration

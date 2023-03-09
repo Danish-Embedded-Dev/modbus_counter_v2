@@ -59,7 +59,8 @@ void setup() {
         register data.  Currently, a modbus slave protocol handler may
         only have one device assigned to it.
         */
-        slave._device = &regBank;  
+        slave._device = &regBank;
+        _device  = &regBank;   //TRY 
       
         // Initialize the serial port for coms at 9600 baud  
         slave.setBaud(running_var.mod_baud,running_var.mod_config);  
@@ -86,9 +87,9 @@ void loop() {
     //put some data into the registers
     update_counter_reg();
     //---------------
-    // update_holdingReg();
+//     update_holdingReg();
     //---- --------------
-    //  response_holdingReg();
+    response_holdingReg();
 
     //setting led if there is any message in serial  
     if(slave.checkSerial()>1){    

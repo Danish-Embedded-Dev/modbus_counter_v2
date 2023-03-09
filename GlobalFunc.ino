@@ -27,67 +27,36 @@ allows for more efficient register lookup and and reduces the number of messages
 required by the master to retrieve the data
 */
 void init_reg(void) {
+  
 //Add Digital Output registers 00001-00016 to the register bank
-  regBank.add(1);
-  regBank.add(2);
-  regBank.add(3);
-  regBank.add(4);
-  regBank.add(5);
-  regBank.add(6);
-  regBank.add(7);
-  regBank.add(8);
-  regBank.add(9);
-  regBank.add(10);
-  regBank.add(11);
-  regBank.add(12);
-  regBank.add(13);
-  regBank.add(14);
-  regBank.add(15);
-  regBank.add(16);
+  regBank.add(1);      //for relay_1
+  regBank.add(2);      //for relay_2
 
 //Add Digital Input registers 10001-10008 to the register bank
-  regBank.add(10001);  
-  regBank.add(10002);  
-  regBank.add(10003);  
-  regBank.add(10004);  
-  regBank.add(10005);  
-  regBank.add(10006);  
-  regBank.add(10007);  
-  regBank.add(10008);  
+  regBank.add(10001);  //for switch_1
+  regBank.add(10002);  //for switch_2
 
 //Add Analog Input registers 30001-10010 to the register bank
-  regBank.add(30001);  
-  regBank.add(30002);  
-  regBank.add(30003);  
-  regBank.add(30004);  
-  regBank.add(30005);  
-  regBank.add(30006);  
-  regBank.add(30007);  
-  regBank.add(30008);  
-  regBank.add(30009);  
-  regBank.add(30010);  
-
+  regBank.add(30001);   // for epochtime (LSB)
+  regBank.add(30002);   // for epochtime (MSB)
+  regBank.add(30003);   // for count_1 (LSB)     
+  regBank.add(30004);   // for count_1 (MSB)     
+  regBank.add(30005);   // for count_2 (MSB)      
+  regBank.add(30006);   // for count_2 (MSB)     
+  
 //Add Analog Output registers 40001-40020 to the register bank
-  regBank.add(40001);  
-  regBank.add(40002);  
-  regBank.add(40003);  
-  regBank.add(40004);  
-  regBank.add(40005);  
-  regBank.add(40006);  
-  regBank.add(40007);  
-  regBank.add(40008);  
-  regBank.add(40009);  
-  regBank.add(40010);  
-  regBank.add(40011);  
-  regBank.add(40012);  
-  regBank.add(40013);  
-  regBank.add(40014);  
-  regBank.add(40015);  
-  regBank.add(40016);  
-  regBank.add(40017);  
-  regBank.add(40018);  
-  regBank.add(40019);  
-  regBank.add(40020);  
+  regBank.add(40001);   // for device_id
+  regBank.add(40002);   // for serial configuration
+  regBank.add(40003);   // for serial baud rate
+  regBank.add(40004);   // for active led timeout period
+  regBank.add(40005);   // for input switch debounce period
+  regBank.add(40006);   // for reset the device
+  regBank.add(40007);   // for epochtime (LSB)
+  regBank.add(40008);   // for epochtime (MSB)
+  regBank.add(40009);   // for count_1 (LSB)    default (0)
+  regBank.add(40010);   // for count_1 (MSB)    default (0)
+  regBank.add(40011);   // for count_2 (MSB)    default (0)
+  regBank.add(40012);   // for count_2 (MSB)    default (0)
 }
   
 /**
@@ -96,79 +65,33 @@ void init_reg(void) {
 
 void update_counter_reg(void) {
   //put some data into the registers
-
-  //add coil register
-  //  regBank.set(1, 1);           //no coil status used in this module
-  //  regBank.set(2, 1);
-
-  //input status register
-  //  regBank.set(10001, 1);      //no input status used in this module
-  //  regBank.set(10002, 1);
-
-
-  //adding holding register
-//  regBank.set(40001, running_val.device_id);
-//  regBank.set(40002, running_val.mod_config);
-//  regBank.set(40003, running_val.mod_baud);
-//  regBank.set(40004, running_val.net_timeout);
-//  regBank.set(40005, running_val.debounce_tm);
-//  regBank.set(40006, 0); //zero for normal and 1 for restart
-//  unsigned long rtc_time = getEpoch();
-//  regBank.set(40007, int((rtc_time)&0xFFFF));     //put Epoch LSB 
-//  regBank.set(40008, int((rtc_time>>16)&0xFFFF)); //put Epoch MSB
-//  
-//  //adding input register
-//  regBank.set(30011, running_val.count_1a);
-//  regBank.set(30012, running_val.count_1b);
-//  regBank.set(30013, running_val.count_1c);
-//  regBank.set(30014, int((running_val.lst_epoch_c1)&0xFFFF));  //put last event c_1 Epoch LSB 
-//  regBank.set(30015, int((running_val.lst_epoch_c1>>16)&0xFFFF));  //put last event c_1 Epoch MSB 
-
-
-//  regBank.set(30021, running_val.count_2a);
-//  regBank.set(30022, running_val.count_2b);
-//  regBank.set(30023, running_val.count_2c);
-//  regBank.set(30014, int((running_val.lst_epoch_c2)&0xFFFF));    //put last event c_2 Epoch LSB 
-//  regBank.set(30015, int((running_val.lst_epoch_c2>>16)&0xFFFF));  //put last event c_2 Epoch MSB 
-
- regBank.set(1, 1);  
-  regBank.set(2, 1);  
-  regBank.set(3, 0);  
-  regBank.set(4, 1);  
-  regBank.set(5, 1);  
-  regBank.set(6, 0);  
-  regBank.set(7, 1);  
-  regBank.set(8, 0);  
-
-  regBank.set(10001, 1);
-  regBank.set(10002, 1);  
-  regBank.set(10003, 1);  
-  regBank.set(10004, 1);  
-  regBank.set(10005, 0);  
-  regBank.set(10006, 0);  
-  regBank.set(10007, 0);  
-  regBank.set(10008, 0);  
   
-  regBank.set(30001,int((rtc.getTime())&0xFFFF));  //LSB   //use for rtc
-  regBank.set(30002,int((rtc.getTime()>>16)&0xFFFF));//MSB
-  regBank.set(30003,  int((button1.getcount())&0xFFFF));           //LSB  //for counter 1
-  regBank.set(30004,  int((button1.getcount()>>16)&0xFFFF));      //MSB
-  regBank.set(30005,5);
-  regBank.set(30006,6);
-  regBank.set(30007,7);
-  regBank.set(30008,8);
-  regBank.set(30009,9);
-  regBank.set(30010,10);
-  
-  regBank.set(40001,  running_var.device_id);   //holding registers
-  regBank.set(40002,  running_var.mod_config);  
-  regBank.set(40003,  running_var.mod_baud);  
-  regBank.set(40004,  running_var.net_timeout);  
-  regBank.set(40005,  running_var.debounce_tm);  
-  regBank.set(40006,  int((running_var.count_1)&0xFFFF));          //LSB
-  regBank.set(40007,  int((running_var.count_1>>16)&0xFFFF));      //MSB
-  regBank.set(40008, 0);  
+  regBank.set(1, 1);        //show relay_1 state
+  regBank.set(2, 1);        //show relay_2 state 
 
+  regBank.set(10001, 1);    //show input switch current state 
+  regBank.set(10002, 1);    //show input switch current state
+  
+  regBank.set(30001, LSB_CAST(rtc.getTime()));            // for epochtime internal rtc (LSB)
+  regBank.set(30002, MSB_CAST(rtc.getTime()));            // for epochtime internal rtc (MSB)
+  regBank.set(30003, LSB_CAST(button1.getcount()));       // for counter 1 (LSB)
+  regBank.set(30004, MSB_CAST(button1.getcount()));       // for counter 1 (MSB)
+  regBank.set(30005, MSB_CAST(button2.getcount()));       // for counter 2 (LSB)
+  regBank.set(30006, MSB_CAST(button2.getcount()));       // for counter 2 (MSB) 
+
+  //holding registers
+  regBank.set(40001,  running_var.device_id);              // for device id 
+  regBank.set(40002,  running_var.mod_config);             // for serial configuration
+  regBank.set(40003,  running_var.mod_baud);               // for serial baud rate
+  regBank.set(40004,  running_var.net_timeout);            // for active led timeout period
+  regBank.set(40005,  running_var.debounce_tm);            // for input switch debounce period
+  regBank.set(40006,  0);                          // show reset = false 
+  regBank.set(40007,  LSB_CAST(rtc.getTime()));            // for epochtime (LSB)
+  regBank.set(40008,  MSB_CAST(rtc.getTime()));            // for epochtime (MSB)
+  regBank.set(40009,  LSB_CAST(rtc.getTime()));            // for count_1 (LSB)     
+  regBank.set(40010,  MSB_CAST(rtc.getTime()));            // for count_1 (MSB)     
+  regBank.set(40011,  LSB_CAST(rtc.getTime()));            // for count_2 (LSB)     
+  regBank.set(40012,  MSB_CAST(rtc.getTime()));            // for count_2 (MSB)    
 }
 
 
@@ -288,29 +211,29 @@ void update_counter_reg(void) {
 // 
 //
 //  return _update;
-//}
-//
+//} 
+
 ///**
 //    if user modify the configuration to take action
 //*/
-//void response_holdingReg() {
-//
-//  //restart the device if user input 1
-//  if (_device->get(40006) == 1  ) {
-//#ifdef  WATCHDOG_ENABLE
-//    iwdg_init(IWDG_PRE_256, 250 ); //watch-dog 250*0.0064 = 1600 ms
-//#endif//WATCH_ENABLE   
-//
-//    while (1); //stuct here watchdog will get out of here from restart
-//  }
-//
-//  
-//  //get current time 
+void response_holdingReg() {
+
+  //restart the device if user input 1
+  if ( _device->get(40006) == DO_RESET ) {
+   Serial.println("catch");
+  #ifdef  WATCHDOG_ENABLE
+    iwdg_init(IWDG_PRE_256, 250 ); //watch-dog 250*0.0064 = 1600 ms
+    while (1); //stuct here watchdog will get out of here from restart
+  #endif//WATCHDOG_ENABLE   
+  }
+
+  
+  //get current time 
 //  if (_device->get(40007) == 1  ) { 
 //    unsigned long rtc_time = getEpoch();
 //    regBank.set(40007, int((rtc_time)&0xFFFF));     //put Epoch LSB 
 //    regBank.set(40008, int((rtc_time>>16)&0xFFFF)); //put Epoch MSB
 //  }
-//  
-//
-//}
+  
+
+}
