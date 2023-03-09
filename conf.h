@@ -20,13 +20,22 @@
 
 
 /*--------------GLOBAL_VAR--------------*/
-
  
-
 
 //------------INTERNAL EEPROM Block----------
  
 #ifdef INTERNAL_EEPROM_ENABLE
+
+//---------------SERIAL-COMMUNICATION-----------
+//  SERIAL_8N1  0B00000000 || 0 //modbus Serial config mode of operation
+//  SERIAL_8N2  0B00100000 || 32
+//  SERIAL_9N1  0B00001000 || 8
+//  SERIAL_9N2  0B00101000 || 40  
+//
+//  SERIAL_8E1  0B00001010 || 10
+//  SERIAL_8E2  0B00101010 || 42
+//  SERIAL_8O1  0B00001011 || 11
+//  SERIAL_8O2  0B00101011 || 43
 
 struct  Default_variable {
   uint16_t device_id   = 1;         //modbus device ID 0-255
@@ -40,21 +49,6 @@ struct  Default_variable {
 
 #endif//INTERNAL_EEPROM_ENABLE
  
-
-
-//---------------SERIAL-COMMUNICATION-----------
-//  SERIAL_8N1  0B00000000 || 0 //modbus Serial config mode of operation
-//  SERIAL_8N2  0B00100000 || 32
-//  SERIAL_9N1  0B00001000 || 8
-//  SERIAL_9N2  0B00101000 || 40  
-//
-//  SERIAL_8E1  0B00001010 || 10
-//  SERIAL_8E2  0B00101010 || 42
-//  SERIAL_8O1  0B00001011 || 11
-//  SERIAL_8O2  0B00101011 || 43
-
-
-
 #ifdef DEBUGOUT    //Use USB_Serial for debug communication
 #define DEBUG_BAUD 9600
 #define DEBUG_PRINT_F(...)    Serial.print(F(__VA_ARGS__))
@@ -73,8 +67,9 @@ struct  Default_variable {
 #ifdef USE_MODBUS  
    
   //----------Manual relay  block--------
-//  #define O1 PB12 //RELAY1 
-  
+//  #define OUT_RLY_1 PB12 //RELAY1 
+//  #define OUT_RLY_1 PB12 //RELAY1  
+
   //-----------INPUT Button---------
   //input switch pins declaration
   #define INPUT_SW_1    PA0 

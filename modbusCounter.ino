@@ -76,15 +76,19 @@ void setup() {
 }
   
 void loop() { 
+  
 #ifdef  WATCHDOG_ENABLE    
-     iwdg_feed(); //Feeding watch dog
+     //Feeding watch dog
+     iwdg_feed(); 
 #endif//WATCH_ENABLE   
 
 #ifdef  MODBUS_COUNTER    
     //put some data into the registers
     update_counter_reg();
-//  update_holdingReg();
-//  response_holdingReg();
+    //---------------
+    // update_holdingReg();
+    //---- --------------
+    //  response_holdingReg();
 
     //setting led if there is any message in serial  
     if(slave.checkSerial()>1){    
@@ -93,8 +97,8 @@ void loop() {
     
     button1.process();       //handle process of button1 activity
     button2.process();       //handle process of button2 activity
-    slave.run();             //handle process of modbus module activity
     ModuleStatus.process();  //handle process of module live activity
+    slave.run();             //handle process of modbus module activity
 #endif//MODBUS_COUNTER   
 
 #ifdef INTERNAL_RTC_ENABLE
