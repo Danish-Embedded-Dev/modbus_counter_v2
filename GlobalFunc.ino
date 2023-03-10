@@ -85,7 +85,7 @@ void update_counter_reg(void) {
   regBank.set(40003,  running_var.mod_baud);               // for serial baud rate
   regBank.set(40004,  running_var.net_timeout);            // for active led timeout period
   regBank.set(40005,  running_var.debounce_tm);            // for input switch debounce period
-  regBank.set(40006,  0);                          // show reset = false 
+  regBank.set(40006,  0);                                  // show reset = false in normal state
   regBank.set(40007,  LSB_CAST(rtc.getTime()));            // for epochtime (LSB)
   regBank.set(40008,  MSB_CAST(rtc.getTime()));            // for epochtime (MSB)
   regBank.set(40009,  LSB_CAST(rtc.getTime()));            // for count_1 (LSB)     
@@ -219,7 +219,7 @@ void update_counter_reg(void) {
 void response_holdingReg() {
 
   //restart the device if user input 1
-  if ( _device->get(40006) == DO_RESET ) {
+  if ( slave._device->get(40006) == DO_RESET ) {
    Serial.println("catch");
   #ifdef  WATCHDOG_ENABLE
     iwdg_init(IWDG_PRE_256, 250 ); //watch-dog 250*0.0064 = 1600 ms
