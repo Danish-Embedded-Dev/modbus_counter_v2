@@ -36,8 +36,11 @@
 //  SERIAL_8E2  0B00101010 || 42
 //  SERIAL_8O1  0B00001011 || 11
 //  SERIAL_8O2  0B00101011 || 43
-#define MSB_CAST(_UINT32_T)       (uint16_t((_UINT32_T)&0xFFFF))  //return higher uint16_t on return
-#define LSB_CAST(_UINT32_T)       (uint16_t((_UINT32_T>>16)&0xFFFF))  //return lower uint16_t  on return
+#define MSB_CAST(_UINT32_T)        (uint16_t((_UINT32_T)&0xFFFF))      //return higher uint16_t on return
+#define LSB_CAST(_UINT32_T)        (uint16_t((_UINT32_T>>16)&0xFFFF))  //return lower uint16_t  on return
+#define MSB_SHIFT(_UINT16_T)       (((uint32_t)_UINT16_T<<16)&0xFFFFFFFF) //return concatenate uint32_t on return
+#define LSB_SHIFT(_UINT16_T)       (uint32_t((_UINT16_T)&0x0000FFFF))       //return concatenate uint32_t on return
+
 
 struct  Default_variable {
   uint16_t device_id   = 1;         //modbus device ID 0-255
@@ -67,8 +70,10 @@ struct  Default_variable {
 
 //------------------MODULE_MODBUS_COUNTER-----------
 #ifdef USE_MODBUS  
-  //reset states 
-  #define DO_RESET  1
+  //ACTION CONDITION
+ #define   NO_RESET_REQ     0
+ #define   DO_RESET         1
+ #define   NORMAL_STATE     0
    
   //----------Manual relay  block--------
 //  #define OUT_RLY_1 PB0 //RELAY1 

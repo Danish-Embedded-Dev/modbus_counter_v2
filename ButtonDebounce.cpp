@@ -37,8 +37,8 @@ void  ButtonDebounce::setdebounce(unsigned long debounce_time){
 //accessor function to set button current total count
 //return: nothing
 //---------------------------------------
-void ButtonDebounce::setcount(uint32_t count){
-  uint32_t total_count = count;  
+void ButtonDebounce::setcount(uint32_t count){ 
+  total_count = count;  
 }
 
 //-----------------------------------------
@@ -46,7 +46,7 @@ void ButtonDebounce::setcount(uint32_t count){
 //return: null
 //---------------------------------------
 
-uint32_t ButtonDebounce::getcount(){
+uint32_t ButtonDebounce::getcount(){ 
   return total_count;
 }
  

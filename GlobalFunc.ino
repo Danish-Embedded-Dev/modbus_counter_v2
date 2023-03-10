@@ -85,133 +85,178 @@ void update_counter_reg(void) {
   regBank.set(40003,  running_var.mod_baud);               // for serial baud rate
   regBank.set(40004,  running_var.net_timeout);            // for active led timeout period
   regBank.set(40005,  running_var.debounce_tm);            // for input switch debounce period
-  regBank.set(40006,  0);                                  // show reset = false in normal state
-  regBank.set(40007,  LSB_CAST(rtc.getTime()));            // for epochtime (LSB)
-  regBank.set(40008,  MSB_CAST(rtc.getTime()));            // for epochtime (MSB)
-  regBank.set(40009,  LSB_CAST(rtc.getTime()));            // for count_1 (LSB)     
-  regBank.set(40010,  MSB_CAST(rtc.getTime()));            // for count_1 (MSB)     
-  regBank.set(40011,  LSB_CAST(rtc.getTime()));            // for count_2 (LSB)     
-  regBank.set(40012,  MSB_CAST(rtc.getTime()));            // for count_2 (MSB)    
+  regBank.set(40006,  NO_RESET_REQ);                       // show reset = false in normal state
+  regBank.set(40007,  NORMAL_STATE);                       // for epochtime (LSB)   
+  regBank.set(40008,  NORMAL_STATE);                       // for epochtime (MSB)
+  regBank.set(40009,  NORMAL_STATE);                       // for count_1 (LSB)     
+  regBank.set(40010,  NORMAL_STATE);                       // for count_1 (MSB)     
+  regBank.set(40011,  NORMAL_STATE);                       // for count_2 (LSB)     
+  regBank.set(40012,  NORMAL_STATE);                       // for count_2 (MSB)    
 }
 
 
-///**
-//    if user modify the configuration variable then save value to EEPROM
-//    @Returns: if eeprom update then true else false
-//*/
-//bool update_holdingReg() {
-//  bool _update = false ;
-//
-//  //update device id if change by  modbus master
-//  if (running_val.device_id != _device->get(40001)) {
-//    running_val.device_id = _device->get(40001);
-//    EE.eeprom_write_Int(_ADDR_DeviceId, int(running_val.device_id));
-//    _update = true;
-//  }
-//
-//  //update modbus configuration if change by  modbus master
-//  if (running_val.mod_config != _device->get(40002)) {
-//    switch (_device->get(40002)) {
-//      case 0:
-//        // set to SERIAL wordlenght = 8 parity = none stop bits = 1
-//        running_val.mod_config = SERIAL_8N1;
-//        regBank.set(40002, SERIAL_8N1);
-//        break;
-//      case 32:
-//        // set to SERIAL wordlenght = 8 parity = none stop bits = 2
-//        running_val.mod_config = SERIAL_8N2;
-//        regBank.set(40002, SERIAL_8N2);
-//        break;
-//      case 8:
-//        // set to SERIAL wordlenght = 9 parity = none stop bits = 1
-//        running_val.mod_config = SERIAL_9N1;
-//        regBank.set(40002, SERIAL_9N1);
-//        break;
-//      case 40:
-//        // set to SERIAL wordlenght = 9 parity = none stop bits = 2
-//        running_val.mod_config = SERIAL_9N2;
-//        regBank.set(40002, SERIAL_9N2);
-//        break;
-//      case 10:
-//        // set to SERIAL wordlenght = 8 parity = even stop bits = 1
-//        running_val.mod_config = SERIAL_8E1;
-//        regBank.set(40002, SERIAL_8E1);
-//        break;
-//      case 42:
-//        // set to SERIAL wordlenght = 8 parity = even stop bits = 2
-//        running_val.mod_config = SERIAL_8E2;
-//        regBank.set(40002, SERIAL_8E2);
-//        break;
-//      case 11:
-//        // set to SERIAL wordlenght = 8 parity = old stop bits = 1
-//        running_val.mod_config = SERIAL_8O1;
-//        regBank.set(40002, SERIAL_8O1);
-//        break;
-//      case 43:
-//        // set to SERIAL wordlenght = 8 parity = old stop bits = 2
-//        running_val.mod_config = SERIAL_8O2;
-//        regBank.set(40002, SERIAL_8O2);
-//        break;
-//      default: //use if master modbus enter wrong data
-//        // set to SERIAL wordlenght = 8 parity = none stop bits = 1
-//        regBank.set(40002, SERIAL_8N1);
-//    }
-//
-//    EE.eeprom_write_Int(_ADDR_Mod_Config, running_val.mod_config);
-//    _update = true;
-//  }
-//
-//  //update modbus baud rate if change by  modbus master
-//  if (running_val.mod_baud != _device->get(40003)) {
-//    switch (_device->get(40003)) {
-//      case 1:
-//        // set to 2400 baud
-//        running_val.mod_baud = 2400;
-//        regBank.set(40003, 2400);
-//        break;
-//      case 2:
-//        // set to 4800 baud
-//        running_val.mod_baud = 4800;
-//        regBank.set(40003, 4800);
-//        break;
-//      case 3:
-//        // set to 9600 baud
-//        running_val.mod_baud = 9600;
-//        regBank.set(40003, 9600);
-//        break;
-//      case 4:
-//        // set to 19200 baud
-//        running_val.mod_baud = 19200;
-//        regBank.set(40003, 19200);
-//        break;
-//      case 5:
-//        // set to 38400 baud
-//        running_val.mod_baud = 38400;
-//        regBank.set(40003, 38400);
-//        break;
-//    }
-//
-//    EE.eeprom_write_Int(_ADDR_Mod_Baud, running_val.mod_baud);
-//    _update = true;
-//  }
-//
-//  //update network timeout if change by modbus master
-//  if (running_val.net_timeout != _device->get(40004)) {
-//    running_val.net_timeout = _device->get(40004);
-//    EE.eeprom_write_Int(_ADDR_Net_tmout, running_val.net_timeout);
-//    _update = true;
-//  }
-//
-//  //update debouncing time if change by modbus master
-//  if (running_val.debounce_tm != _device->get(40005)) {
-//    running_val.debounce_tm = _device->get(40005);
-//    EE.eeprom_write_Int(_ADDR_Debounce_tm, running_val.debounce_tm);
-//    _update = true;
-//  }
-// 
-//
-//  return _update;
-//} 
+/**
+    if user modify the configuration variable then save value to EEPROM
+    @Returns: if eeprom update then true else false
+*/
+bool update_holdingReg() {
+  bool _update = false ;
+
+  //update device id if change by  modbus master
+  if (running_var.device_id != slave._device->get(40001)) {
+    running_var.device_id =  slave._device->get(40001); 
+    _update = true;
+  }
+
+  //update modbus configuration if change by  modbus master
+  if (running_var.mod_config != slave._device->get(40002)) {
+    switch (slave._device->get(40002)) {
+      case 0:
+        // set to SERIAL wordlenght = 8 parity = none stop bits = 1
+        running_var.mod_config = SERIAL_8N1;
+        regBank.set(40002, SERIAL_8N1);
+        break;
+      case 32:
+        // set to SERIAL wordlenght = 8 parity = none stop bits = 2
+        running_var.mod_config = SERIAL_8N2;
+        regBank.set(40002, SERIAL_8N2);
+        break;
+      case 8:
+        // set to SERIAL wordlenght = 9 parity = none stop bits = 1
+        running_var.mod_config = SERIAL_9N1;
+        regBank.set(40002, SERIAL_9N1);
+        break;
+      case 40:
+        // set to SERIAL wordlenght = 9 parity = none stop bits = 2
+        running_var.mod_config = SERIAL_9N2;
+        regBank.set(40002, SERIAL_9N2);
+        break;
+      case 10:
+        // set to SERIAL wordlenght = 8 parity = even stop bits = 1
+        running_var.mod_config = SERIAL_8E1;
+        regBank.set(40002, SERIAL_8E1);
+        break;
+      case 42:
+        // set to SERIAL wordlenght = 8 parity = even stop bits = 2
+        running_var.mod_config = SERIAL_8E2;
+        regBank.set(40002, SERIAL_8E2);
+        break;
+      case 11:
+        // set to SERIAL wordlenght = 8 parity = old stop bits = 1
+        running_var.mod_config = SERIAL_8O1;
+        regBank.set(40002, SERIAL_8O1);
+        break;
+      case 43:
+        // set to SERIAL wordlenght = 8 parity = old stop bits = 2
+        running_var.mod_config = SERIAL_8O2;
+        regBank.set(40002, SERIAL_8O2);
+        break;
+      default: //use if master modbus enter wrong data
+        // set to SERIAL wordlenght = 8 parity = none stop bits = 1
+        regBank.set(40002, SERIAL_8N1);
+    }
+ 
+    _update = true;
+  }
+
+  //update modbus baud rate if change by  modbus master
+  if (running_var.mod_baud != slave._device->get(40003)) {
+    switch (slave._device->get(40003)) {
+      case 1:
+        // set to 2400 baud
+        running_var.mod_baud = 2400;
+        regBank.set(40003, 2400);
+        break;
+      case 2:
+        // set to 4800 baud
+        running_var.mod_baud = 4800;
+        regBank.set(40003, 4800);
+        break;
+      case 3:
+        // set to 9600 baud
+        running_var.mod_baud = 9600;
+        regBank.set(40003, 9600);
+        break;
+      case 4:
+        // set to 19200 baud
+        running_var.mod_baud = 19200;
+        regBank.set(40003, 19200);
+        break;
+      case 5:
+        // set to 38400 baud
+        running_var.mod_baud = 38400;
+        regBank.set(40003, 38400);
+        break;
+    }
+ 
+    _update = true;
+  }
+
+  //update network timeout if change by modbus master
+  if (running_var.net_timeout != slave._device->get(40004)) {
+    running_var.net_timeout = slave._device->get(40004); 
+    _update = true;
+  }
+
+  //update debouncing time if change by modbus master
+  if (running_var.debounce_tm != slave._device->get(40005)) {
+    running_var.debounce_tm = slave._device->get(40005); 
+    _update = true;
+  }
+
+
+  //set epoch value from modbus protocol
+  //always add MSB first then LSB 
+  
+   if (slave._device->get(40008) != NORMAL_STATE) { //40008 (MSB) 
+    rtc.setTime(MSB_SHIFT(slave._device->get(40008)));  
+    _update = true;
+  }
+  
+   if (slave._device->get(40007) != NORMAL_STATE) { //40007 (LSB) 
+    uint32_t current_epoch  = rtc.getTime();
+    current_epoch &= 0xFFFF0000;  // Clear the lower 16 bits
+    current_epoch |= LSB_SHIFT(slave._device->get(40007));  // Set the lower 16 bits to the new value 
+    rtc.setTime(current_epoch);  
+    _update = true;
+  }
+
+  
+  //set count_1 from modbus protocol
+
+   if (slave._device->get(40010) != NORMAL_STATE) { //40010 (MSB)
+    button1.setcount(MSB_SHIFT(slave._device->get(40010)));  
+    _update = true;
+  }
+
+  
+  if (slave._device->get(40009) != NORMAL_STATE) { //40009 (LSB) 
+    uint32_t current_count  = button1.getcount();
+    current_count &= 0xFFFF0000;  // Clear the lower 16 bits
+    current_count |= LSB_SHIFT(slave._device->get(40009));  // Set the lower 16 bits to the new value 
+    button1.setcount(current_count);  
+    _update = true;
+  }
+
+   //set count_2 from modbus protocol
+
+   if (slave._device->get(40012) != NORMAL_STATE) { //40012 (MSB)
+    button2.setcount(MSB_SHIFT(slave._device->get(40012)));  
+    _update = true;
+  }
+
+  
+  if (slave._device->get(40011) != NORMAL_STATE) { //400011 (LSB)
+    uint32_t current_count  = button1.getcount();
+    current_count &= 0xFFFF0000;  // Clear the lower 16 bits
+    current_count |= LSB_SHIFT(slave._device->get(40011));  // Set the lower 16 bits to the new value 
+    button2.setcount(current_count); 
+    _update = true;
+  }
+
+
+  return _update;
+} 
 
 ///**
 //    if user modify the configuration to take action
@@ -226,14 +271,5 @@ void response_holdingReg() {
     while (1); //stuct here watchdog will get out of here from restart
   #endif//WATCHDOG_ENABLE   
   }
-
-  
-  //get current time 
-//  if (_device->get(40007) == 1  ) { 
-//    unsigned long rtc_time = getEpoch();
-//    regBank.set(40007, int((rtc_time)&0xFFFF));     //put Epoch LSB 
-//    regBank.set(40008, int((rtc_time>>16)&0xFFFF)); //put Epoch MSB
-//  }
-  
 
 }

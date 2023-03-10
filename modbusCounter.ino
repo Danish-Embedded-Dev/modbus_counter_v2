@@ -68,6 +68,10 @@ void setup() {
         button1.setdebounce(running_var.debounce_tm);
         button2.setdebounce(running_var.debounce_tm);
 
+        //add counter offset which store in SRAM
+        button1.setcount(running_var.count_1);
+        button2.setcount(running_var.count_2);
+
         //add live status active time period 
         ModuleStatus.set_timeout(running_var.net_timeout);
         
@@ -83,17 +87,17 @@ void loop() {
 #endif//WATCH_ENABLE   
 
 #ifdef  MODBUS_COUNTER    
-    //-------------------
-    response_holdingReg();
-    //put some data into the registers
+    //response to register values
+    response_holdingReg(); 
+    //take action if update register by modbus master required
+     update_holdingReg();
+    //put current data into the registers
     update_counter_reg();
-    //---------------
-//     update_holdingReg();
 
     //setting led if there is any message in serial  
-    if(slave.checkSerial()>1){    
+    if(slave.checkSerial()>1)    
       ModuleStatus.set();     //start led active for ACTIVE_TIME in ms 
-     }
+    
     
     button1.process();       //handle process of button1 activity
     button2.process();       //handle process of button2 activity
@@ -102,7 +106,9 @@ void loop() {
 #endif//MODBUS_COUNTER   
 
 #ifdef INTERNAL_RTC_ENABLE
-    SRAM_Var[_cnt_1]  =  running_var.count_1; //update sram variable
-    SRAM_Var[_cnt_2]  =  running_var.count_2; //update sram variable
+    running_var.count_1 =  button1.getcount();
+    running_var.count_2 =  button2.getcount();
+    SRAM_Var[_cnt_1]    =  running_var.count_1; //update sram variable
+    SRAM_Var[_cnt_2]    =  running_var.count_2; //update sram variable
 #endif//INTERNAL_RTC_ENABLE
 }
