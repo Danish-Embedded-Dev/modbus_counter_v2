@@ -70,14 +70,17 @@ struct  Default_variable {
 
 //------------------MODULE_MODBUS_COUNTER-----------
 #ifdef USE_MODBUS  
-  //ACTION CONDITION
- #define   NO_RESET_REQ     0
- #define   DO_RESET         1
- #define   NORMAL_STATE     0
+    //ACTION CONDITION
+   #define   NO_RESET_REQ     0
+   #define   DO_RESET         1
+   #define   NORMAL_STATE     0
+   
+   uint8_t   relay1_state;
+   uint8_t   relay2_state;
    
   //----------Manual relay  block--------
-//  #define OUT_RLY_1 PB0 //RELAY1 
-//  #define OUT_RLY_2 PB1 //RELAY1  
+  #define OUT_RLY_1 PB0 //RELAY1 
+  #define OUT_RLY_2 PB1 //RELAY1  
 
   //-----------INPUT Button---------
   //input switch pins declaration

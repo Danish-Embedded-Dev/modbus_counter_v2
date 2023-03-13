@@ -8,9 +8,17 @@ void gpioInit()
    //make output for status led
    pinMode(STATUS_LED,OUTPUT);
 
-   //make input pullup
+   //make gpio_pins as input pullup
    pinMode(INPUT_SW_1,INPUT_PULLUP);
    pinMode(INPUT_SW_2,INPUT_PULLUP);
+
+   //make gpio_pins as output 
+   pinMode(OUT_RLY_1,OUTPUT);
+   pinMode(OUT_RLY_2,OUTPUT);
+   
+   //set state to turn off  
+   relay1_state = false;
+   relay2_state = false;
 }
 /*
 modbus registers follow the following format
@@ -66,11 +74,11 @@ void init_reg(void) {
 void update_counter_reg(void) {
   //put some data into the registers
   
-  regBank.set(1, 1);        //show relay_1 state
-  regBank.set(2, 1);        //show relay_2 state 
+  regBank.set(1,  relay1_state);        //show relay_1 state   
+  regBank.set(2,  relay2_state);        //show relay_2 state 
 
-  regBank.set(10001, 1);    //show input switch current state 
-  regBank.set(10002, 1);    //show input switch current state
+  regBank.set(10001, button1.isPressed());    //show input switch current state 
+  regBank.set(10002, button1.isPressed());    //show input switch current state
   
   regBank.set(30001, LSB_CAST(rtc.getTime()));            // for epochtime internal rtc (LSB)
   regBank.set(30002, MSB_CAST(rtc.getTime()));            // for epochtime internal rtc (MSB)
@@ -101,7 +109,22 @@ void update_counter_reg(void) {
 */
 bool update_holdingReg() {
   bool _update = false ;
+  
+  //update output_1 coil if changed
+  if (slave._device->get(1) != relay1_state ) {  //will add state concept
+    relay1_state = slave._device->get(1);  //once trigger will change the state
+    digitalWrite(OUT_RLY_1,relay1_state); 
+    _update = true;
+  }
 
+  //update output_2 coil if changed
+  if (slave._device->get(2) != relay2_state ) {  //will add state concept
+    relay2_state = slave._device->get(2);  //once trigger will change the state
+    digitalWrite(OUT_RLY_2,relay1_state); 
+    _update = true;
+  }
+
+  
   //update device id if change by  modbus master
   if (running_var.device_id != slave._device->get(40001)) {
     running_var.device_id =  slave._device->get(40001); 

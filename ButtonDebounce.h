@@ -30,6 +30,7 @@ class ButtonDebounce {
     void     setdebounce(unsigned long debounce_time);
     void     setcount(uint32_t count);
     uint32_t getcount();
+    bool     isPressed();
     void     process();   
  
  private: 

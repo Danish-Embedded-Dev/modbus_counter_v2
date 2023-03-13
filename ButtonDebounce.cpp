@@ -49,6 +49,19 @@ void ButtonDebounce::setcount(uint32_t count){
 uint32_t ButtonDebounce::getcount(){ 
   return total_count;
 }
+
+//-----------------------------------------
+//accessor function to get button pressed 
+//return: 0(not pressed)  or 1(pressed)
+//---------------------------------------
+
+bool ButtonDebounce::isPressed(){ 
+  if(state == DEBOUNCED_PRESS)
+    return true;
+  else
+    return false; 
+}
+ 
  
 //--------------------------------------------------------------
 // process()
